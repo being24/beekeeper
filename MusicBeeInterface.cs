@@ -1,4 +1,7 @@
-﻿using System;
+﻿// Modified by Beekeeper contributors in 2026.
+// SPDX-License-Identifier: Apache-2.0
+
+using System;
 using System.Runtime.InteropServices;
 
 namespace MusicBeePlugin
@@ -7,7 +10,7 @@ namespace MusicBeePlugin
     {
         public const short PluginInfoVersion = 1;
         public const short MinInterfaceVersion = 31;
-        public const short MinApiRevision = 43;
+        public const short MinApiRevision = 47;
 
         [StructLayout(LayoutKind.Sequential)]
         public struct MusicBeeApiInterface
@@ -217,6 +220,18 @@ namespace MusicBeePlugin
             // api version 43
             public MB_AddTreeNodeDelegate MB_AddTreeNode;
             public MB_DownloadFileDelegate MB_DownloadFile;
+            // api version 47
+            public Setting_GetFileConvertCommandLineDelegate Setting_GetFileConvertCommandLine;
+            public Player_OpenStreamHandleDelegate Player_OpenStreamHandle;
+            public Player_UpdatePlayStatisticsDelegate Player_UpdatePlayStatistics;
+            public Library_GetArtworkExDelegate Library_GetArtworkEx;
+            public Library_SetArtworkExDelegate Library_SetArtworkEx;
+            public MB_GetVisualiserInformationDelegate MB_GetVisualiserInformation;
+            public MB_ShowVisualiserDelegate MB_ShowVisualiser;
+            public MB_GetPluginViewInformationDelegate MB_GetPluginViewInformation;
+            public MB_ShowPluginViewDelegate MB_ShowPluginView;
+            public Player_GetOutputDevicesDelegate Player_GetOutputDevices;
+            public Player_SetOutputDeviceDelegate Player_SetOutputDevice;
         }
 
         public enum MusicBeeVersion
@@ -432,6 +447,36 @@ namespace MusicBeePlugin
             Year = 88
         }
 
+        public enum FileCodec
+        {
+            Unknown = -1,
+            Mp3 = 1,
+            Aac = 2,
+            Flac = 3,
+            Ogg = 4,
+            WavPack = 5,
+            Wma = 6,
+            Tak = 7,
+            Mpc = 8,
+            Wave = 9,
+            Asx = 10,
+            Alac = 11,
+            Aiff = 12,
+            Pcm = 13,
+            Opus = 15,
+            Spx = 16,
+            Dsd = 17,
+            AacNoContainer = 18
+        }
+
+        public enum EncodeQuality
+        {
+            SmallSize = 1,
+            Portable = 2,
+            HighQuality = 3,
+            Archiving = 4
+        }
+
         [Flags()]
         public enum LibraryCategory
         {
@@ -557,6 +602,13 @@ namespace MusicBeePlugin
             Smart = 3
         }
 
+        public enum PlayStatisticType
+        {
+            NoChange = 0,
+            IncreasePlayCount = 1,
+            IncreaseSkipCount = 2
+        }
+
         public enum Command
         {
             NavigateTo = 1
@@ -567,6 +619,24 @@ namespace MusicBeePlugin
             Inbox = 0,
             MusicLibrary = 1,
             SpecificFolder = 3
+        }
+
+        [Flags()]
+        public enum PictureLocations : byte
+        {
+            None = 0,
+            EmbedInFile = 1,
+            LinkToOrganisedCopy = 2,
+            LinkToSource = 4,
+            FolderThumb = 8
+        }
+
+        public enum WindowState
+        {
+            Off = -1,
+            Normal = 0,
+            Fullscreen = 1,
+            Desktop = 2
         }
 
         public delegate void MB_ReleaseStringDelegate(string p1);
@@ -590,6 +660,10 @@ namespace MusicBeePlugin
         public delegate bool MB_OpenFilterInTabDelegate(MetaDataType field1, ComparisonType comparison1, string value1, MetaDataType field2, ComparisonType comparison2, string value2);
         public delegate bool MB_SetWindowSizeDelegate(int width, int height);
         public delegate bool MB_DownloadFileDelegate(string url, DownloadTarget target, string targetFolder, bool cancelDownload);
+        public delegate bool MB_GetVisualiserInformationDelegate(out string[] visualiserNames, out string defaultVisualiserName, out WindowState defaultState, out WindowState currentState);
+        public delegate bool MB_ShowVisualiserDelegate(string visualiserName, WindowState state);
+        public delegate bool MB_GetPluginViewInformationDelegate(string pluginFilename, out string[] viewNames, out string defaultViewName, out WindowState defaultState, out WindowState currentState);
+        public delegate bool MB_ShowPluginViewDelegate(string pluginFilename, string viewName, WindowState state);
         public delegate string Setting_GetFieldNameDelegate(MetaDataType field);
         public delegate string Setting_GetPersistentStoragePathDelegate();
         public delegate string Setting_GetSkinDelegate();
@@ -600,6 +674,7 @@ namespace MusicBeePlugin
         public delegate string Setting_GetLastFmUserIdDelegate();
         public delegate string Setting_GetWebProxyDelegate();
         public delegate bool Setting_GetValueDelegate(SettingId settingId, ref object value);
+        public delegate string Setting_GetFileConvertCommandLineDelegate(FileCodec codec, EncodeQuality encodeQuality);
         public delegate string Library_GetFilePropertyDelegate(string sourceFileUrl, FilePropertyType type);
         public delegate string Library_GetFileTagDelegate(string sourceFileUrl, MetaDataType field);
         public delegate bool Library_GetFileTagsDelegate(string sourceFileUrl, MetaDataType[] fields, ref string[] results);
@@ -612,6 +687,8 @@ namespace MusicBeePlugin
         public delegate bool Library_GetSyncDeltaDelegate(string[] cachedFiles, DateTime updatedSince, LibraryCategory categories, ref string[] newFiles, ref string[] updatedFiles, ref string[] deletedFiles);
         public delegate string Library_GetLyricsDelegate(string sourceFileUrl, LyricsType type);
         public delegate string Library_GetArtworkDelegate(string sourceFileUrl, int index);
+        public delegate bool Library_GetArtworkExDelegate(string sourceFileUrl, int index, bool retrievePictureData, out PictureLocations pictureLocations, out string pictureUrl, out byte[] imageData);
+        public delegate bool Library_SetArtworkExDelegate(string sourceFileUrl, int index, byte[] imageData);
         public delegate string Library_GetArtistPictureDelegate(string artistName, int fadingPercent, int fadingColor);
         public delegate bool Library_GetArtistPictureUrlsDelegate(string artistName, bool localOnly, ref string[] urls);
         public delegate string Library_GetArtistPictureThumbDelegate(string artistName);
@@ -652,6 +729,10 @@ namespace MusicBeePlugin
         public delegate bool Player_SetCrossfadeDelegate(bool crossfade);
         public delegate ReplayGainMode Player_GetReplayGainModeDelegate();
         public delegate bool Player_SetReplayGainModeDelegate(ReplayGainMode mode);
+        public delegate int Player_OpenStreamHandleDelegate(string url, bool useMusicBeeSettings, bool enableDsp, ReplayGainMode gainType);
+        public delegate bool Player_UpdatePlayStatisticsDelegate(string url, PlayStatisticType countType, bool disableScrobble);
+        public delegate bool Player_GetOutputDevicesDelegate(out string[] deviceNames, out string activeDeviceName);
+        public delegate bool Player_SetOutputDeviceDelegate(string deviceName);
         public delegate string NowPlaying_GetFileUrlDelegate();
         public delegate int NowPlaying_GetDurationDelegate();
         public delegate string NowPlaying_GetFilePropertyDelegate(FilePropertyType type);

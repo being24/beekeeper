@@ -1,4 +1,7 @@
-﻿using System;
+﻿// Modified by Beekeeper contributors in 2026.
+// SPDX-License-Identifier: Apache-2.0
+
+using System;
 using System.Runtime.InteropServices;
 using System.Drawing;
 using System.Windows.Forms;
@@ -724,6 +727,19 @@ namespace MusicBeePlugin
                         sourceFileUrl = (string)parameters["sourceFileUrl"];
                         index = (int)parameters["index"];
                         result = mbApiInterface.Library_GetArtwork(sourceFileUrl, index);
+                        break;
+                    case "Library_SetArtworkEx": // bool (string sourceFileUrl, int index, string imageData)
+                        if (!ReadOnly)
+                        {
+                            sourceFileUrl = (string)parameters["sourceFileUrl"];
+                            index = (int)parameters["index"];
+                            byte[] imageData = Convert.FromBase64String((string)parameters["imageData"]);
+                            result = mbApiInterface.Library_SetArtworkEx(sourceFileUrl, index, imageData);
+                        }
+                        else
+                        {
+                            result = null;
+                        }
                         break;
                     case "Library_QueryFiles": // bool (string query)
                         query = (string)parameters["query"];

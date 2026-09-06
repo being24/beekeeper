@@ -79,3 +79,15 @@ SOFTWARE.
 
 `files/json2.js` states that it is in the public domain and is provided without
 warranty.
+
+## MusicBee API Mirror
+
+The API revision 47 interface definitions used by Beekeeper were checked
+against the MusicBee API Mirror at
+<https://github.com/ashtrath/musicbee-api-mirror>.
+
+Copyright (c) 2026 Ashtrath
+
+The mirror is made available under the MIT License. Its full license text is
+available at
+<https://github.com/ashtrath/musicbee-api-mirror/blob/main/LICENSE>.

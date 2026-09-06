@@ -1,8 +1,11 @@
+// Modified by Beekeeper contributors in 2026.
+// SPDX-License-Identifier: Apache-2.0
+
 /**
  * Beekeeper module containing types and methods for easy access to the Beekeeper MusicBee Plugin.
  * Requires jquery (for $.ajax) and JSON (for JSON.Stringify) to be available.
  *
- * This version was written for MusicBee 2.4.5404, API version 43.
+ * This version requires MusicBee API revision 47 or later.
  *
  * Future compatibility of the Beekeeper Plugin with MusicBee cannot be guaranteed and is at the
  * mercy of the author of MusicBee.
@@ -526,6 +529,22 @@ var Beekeeper = {
             { sourceFileUrl: sourceFileUrl, index: index },
             callback
         )
+    },
+
+    /**
+     * Replaces artwork in a library file. Image data must be Base64-encoded.
+     * Library_SetArtworkEx (string sourceFileUrl, int index, string imageData, function (boolean) callback)
+     * @param {string} sourceFileUrl Path to music file in database
+     * @param {int} index Index of image in source file, starting at 0
+     * @param {string} imageData Base64-encoded image bytes
+     * @param {function (object)} callback Callback function, expecting a boolean JSON value
+     */
+    Library_SetArtworkEx: function(sourceFileUrl, index, imageData, callback) {
+        this.Call(
+            'Library_SetArtworkEx',
+            { sourceFileUrl: sourceFileUrl, index: index, imageData: imageData },
+            callback
+        );
     },
 
     /** 
