@@ -1,3 +1,4 @@
+# Modified by Beekeeper contributors in 2026.
 name: Build and Release
 
 on:
@@ -19,14 +20,6 @@ jobs:
 
       - name: Add msbuild to PATH
         uses: microsoft/setup-msbuild@v3
-
-      - name: Setup NuGet
-        uses: nuget/setup-nuget@v3
-
-      - name: Restore NuGet packages
-        # .NET Framework 4.0のReference Assemblies(Developer Pack)がランナーに
-        # 同梱されていないため、Microsoft.NETFramework.ReferenceAssemblies.net40で補う
-        run: nuget restore Beekeeper.sln
 
       - name: Build
         # OutputPathは元プロジェクトファイルではリポジトリ外の相対パスを指しているため、

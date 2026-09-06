@@ -3,7 +3,10 @@ Beekeeper
 
 ## Synopsis
 
-Beekeeper MusicBee plugin to expose Web API. 
+Beekeeper MusicBee plugin to expose Web API.
+
+This fork updates the original project for current MusicBee and build
+environments. Building and running it requires .NET Framework 4.7.2 or later.
 
 The project consists of a plugin .dll (mb_beekeeper.dll) with a supporting .dll (HybridDSP.Net.dll) and a JavaScript library with example code. The .dll's comprise the MusicBee plugin and work independently from the Javascript library. The beekeeper.js Javascript library is ready to use (in combination with jQuery and JSON2) and provides additional documentation for the API. The examples show how to use all of the individual API methods through beekeeper.js.
 
