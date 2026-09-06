@@ -3,7 +3,6 @@ Beekeeper
 
 ## Synopsis
 
-At the top of the file there should be a short introduction and/ or overview that explains **what** the project is. This description should match descriptions added for package managers (Gemspec, package.json, etc.)
 Beekeeper MusicBee plugin to expose Web API. 
 
 The project consists of a plugin .dll (mb_beekeeper.dll) with a supporting .dll (HybridDSP.Net.dll) and a JavaScript library with example code. The .dll's comprise the MusicBee plugin and work independently from the Javascript library. The beekeeper.js Javascript library is ready to use (in combination with jQuery and JSON2) and provides additional documentation for the API. The examples show how to use all of the individual API methods through beekeeper.js.
@@ -35,7 +34,9 @@ Beekeeper exposes the same API as a web API. It includes a simple embedded web s
 
 Download and install MusicBee from http://getmusicbee.com.
 
-Download and install Beekeeper from http://grismar.net/beekeeper (forthcoming).
+Download `beekeeper-plugin.zip` from the
+[latest GitHub Release](https://github.com/being24/beekeeper/releases/latest),
+extract it, and install the plugin through MusicBee's plugin settings.
 
 In MusicBee, under Edit - Preference - Plugins, check that beekeeper is available, that the selected port is to your liking (it should be free) and that 'Service running' is checked. You may need to restart MusicBee, after hitting "Apply" and "Save".
 
@@ -53,6 +54,11 @@ I'm not actively looking for contributors, but if you do want to reach me, you c
 
 ## License
 
-The Beekeeper source itself is licensed under Apache 2.0. Please note that this license does not extend to jQuery (The jQuery Foundation, open-source MIT license), JSON2 (Douglas Crockford, public domain), HybridDSP.Net (Hybrid GeoTools, Apache 2.0 license) and skeleton.css (Dave Gamache, open-source MIT license).
+Beekeeper itself is licensed under the [Apache License 2.0](LICENSE).
+
+The distribution also contains third-party components under their respective
+licenses: HybridDSP.Net (BSD 3-Clause), jQuery (MIT), JSON2 (public domain), and
+Skeleton CSS (MIT). See [THIRD-PARTY-NOTICES.md](THIRD-PARTY-NOTICES.md) for the
+notices and license terms retained with the distribution.
 
 You can find more about those components at (respectively) http://jquery.com, https://github.com/douglascrockford/JSON-js, http://www.codeproject.com/Articles/20445/C-Customizable-Embedded-HTTPServer and http://getskeleton.com/.
