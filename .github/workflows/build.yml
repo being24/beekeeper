@@ -19,6 +19,14 @@ jobs:
       - name: Add msbuild to PATH
         uses: microsoft/setup-msbuild@v3
 
+      - name: Setup NuGet
+        uses: nuget/setup-nuget@v3
+
+      - name: Restore NuGet packages
+        # .NET Framework 4.0のReference Assemblies(Developer Pack)がランナーに
+        # 同梱されていないため、Microsoft.NETFramework.ReferenceAssemblies.net40で補う
+        run: nuget restore Beekeeper.sln
+
       - name: Build
         # OutputPathは元プロジェクトファイルではリポジトリ外の相対パスを指しているため、
         # ビルド時のプロパティ上書きでリポジトリ内に出力先を揃える(csprojファイル自体は変更しない)

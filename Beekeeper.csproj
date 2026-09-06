@@ -78,6 +78,14 @@
     <ApplicationIcon>beekeeper.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <!-- windows-latest等のCIランナーにv4.0のDeveloper Pack(Reference Assemblies)が
+         同梱されていないため、NuGet経由で補う(TargetFrameworkVersionは変更しない) -->
+    <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies.net40" Version="1.0.3">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+  <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.configuration" />
     <Reference Include="System.Data" />
