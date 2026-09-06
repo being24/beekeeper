@@ -39,6 +39,12 @@ jobs:
           copy bin\Release\mb_Beekeeper.dll dist\
           copy bin\Release\HybridDSP.Net.dll dist\
 
+      - name: Package plugin zip
+        # MusicBeeの「Preferences > Plugins > Add Plugin」はzipファイルでのインストールを
+        # 前提としている(デスクトップ版・Microsoft Store版共通)ため、dll2つをまとめて同梱する
+        shell: pwsh
+        run: Compress-Archive -Path dist\mb_Beekeeper.dll, dist\HybridDSP.Net.dll -DestinationPath dist\beekeeper-plugin.zip
+
       - name: Upload build artifacts
         uses: actions/upload-artifact@v7
         with:
