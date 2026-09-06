@@ -2,4 +2,23 @@
 # This .gitignore file was automatically created by Microsoft(R) Visual Studio.
 ################################################################################
 
+# Visual Studio user settings
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+.vs/
+
+# Build output and restored packages
+[Bb]in/
+[Oo]bj/
+[Pp]ackages/
+*.nupkg
+
+# Test and analysis output
+TestResults/
+*.coverage
+*.coveragexml
+
+# Existing local documentation directory
 /documents
