@@ -1,0 +1,51 @@
+version: 2
+updates:
+  - package-ecosystem: "nuget"
+    directories:
+      - "/"
+      - "/HybridDSP.Net"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "09:00"
+      timezone: "Asia/Tokyo"
+    target-branch: "master"
+    open-pull-requests-limit: 5
+    assignees:
+      - "being24"
+    cooldown:
+      default-days: 3
+      semver-patch-days: 1
+    groups:
+      nuget-all:
+        applies-to: version-updates
+        patterns:
+          - "*"
+      nuget-security:
+        applies-to: security-updates
+        patterns:
+          - "*"
+
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "09:00"
+      timezone: "Asia/Tokyo"
+    target-branch: "master"
+    open-pull-requests-limit: 5
+    assignees:
+      - "being24"
+    cooldown:
+      default-days: 3
+      semver-patch-days: 1
+    groups:
+      github-actions-all:
+        applies-to: version-updates
+        patterns:
+          - "*"
+      github-actions-security:
+        applies-to: security-updates
+        patterns:
+          - "*"
