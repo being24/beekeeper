@@ -42,6 +42,26 @@ jobs:
         shell: pwsh
         run: Compress-Archive -Path dist\mb_Beekeeper.dll, dist\HybridDSP.Net.dll, dist\LICENSE, dist\NOTICE, dist\THIRD-PARTY-NOTICES.md -DestinationPath dist\beekeeper-plugin.zip
 
+      - name: Set up uv
+        uses: astral-sh/setup-uv@c771a70e6277c0a99b617c7a806ffedaca235ff9 # v9.0.0
+        with:
+          enable-cache: true
+
+      - name: Install Python
+        run: uv python install 3.12
+
+      - name: Install MCP dependencies
+        run: uv sync --frozen --python 3.12
+
+      - name: Lint MCP server
+        run: uv run --frozen ruff check src tests
+
+      - name: Test MCP server
+        run: uv run --frozen pytest -q
+
+      - name: Package MCP server
+        run: uv build
+
       - name: Upload build artifacts
         uses: actions/upload-artifact@v7
         with:
@@ -52,4 +72,7 @@ jobs:
         if: github.ref_type == 'tag'
         uses: softprops/action-gh-release@v3
         with:
-          files: dist/beekeeper-plugin.zip
+          files: |
+            dist/beekeeper-plugin.zip
+            dist/beekeeper_mcp-*.whl
+            dist/beekeeper_mcp-*.tar.gz

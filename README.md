@@ -67,6 +67,13 @@ over stdio with:
 uv run beekeeper-mcp
 ```
 
+GitHub Releases also contain a Python wheel and source archive. After
+downloading the wheel, it can be launched without installing it permanently:
+
+```console
+uvx --from ./beekeeper_mcp-0.1.0-py3-none-any.whl beekeeper-mcp
+```
+
 The server connects to `http://localhost:8080` by default. Set
 `BEEKEEPER_URL` when MusicBee is listening elsewhere. For example, an MCP host
 configuration can launch it from this checkout with:
