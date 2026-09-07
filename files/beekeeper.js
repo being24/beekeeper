@@ -298,6 +298,17 @@ var Beekeeper = {
     },
 
     /**
+     * @static {int} PictureLocations
+     */
+    PictureLocations: {
+        None: 0,
+        EmbedInFile: 1,
+        LinkToOrganisedCopy: 2,
+        LinkToSource: 4,
+        FolderThumb: 8
+    },
+
+    /**
      * @static {string} basePath
      */
     basePath: "/",
@@ -529,6 +540,28 @@ var Beekeeper = {
             { sourceFileUrl: sourceFileUrl, index: index },
             callback
         )
+    },
+
+    /**
+     * Retrieves artwork storage locations, URL and optionally the image bytes.
+     * Library_GetArtworkEx (string sourceFileUrl, int index, boolean retrievePictureData,
+     *   function (object) callback)
+     * @param {string} sourceFileUrl Path to music file in database
+     * @param {int} index Index of image in source file, starting at 0
+     * @param {boolean} retrievePictureData Whether imageData should contain Base64-encoded bytes
+     * @param {function (object)} callback Callback function, expecting success, pictureLocations,
+     *   pictureUrl and imageData fields
+     */
+    Library_GetArtworkEx: function(sourceFileUrl, index, retrievePictureData, callback) {
+        this.Call(
+            'Library_GetArtworkEx',
+            {
+                sourceFileUrl: sourceFileUrl,
+                index: index,
+                retrievePictureData: retrievePictureData
+            },
+            callback
+        );
     },
 
     /**

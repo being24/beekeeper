@@ -728,6 +728,34 @@ namespace MusicBeePlugin
                         index = (int)parameters["index"];
                         result = mbApiInterface.Library_GetArtwork(sourceFileUrl, index);
                         break;
+                    case "Library_GetArtworkEx": // object (string sourceFileUrl, int index, bool retrievePictureData)
+                        sourceFileUrl = (string)parameters["sourceFileUrl"];
+                        index = (int)parameters["index"];
+                        bool retrievePictureData = (bool)parameters["retrievePictureData"];
+                        Plugin.PictureLocations pictureLocations;
+                        string pictureUrl;
+                        byte[] artworkImageData;
+                        bool artworkFound = mbApiInterface.Library_GetArtworkEx(
+                            sourceFileUrl,
+                            index,
+                            retrievePictureData,
+                            out pictureLocations,
+                            out pictureUrl,
+                            out artworkImageData
+                        );
+                        result = new Dictionary<string, object>()
+                        {
+                            { "success", artworkFound },
+                            { "pictureLocations", (int)pictureLocations },
+                            { "pictureUrl", pictureUrl },
+                            {
+                                "imageData",
+                                retrievePictureData && artworkImageData != null
+                                    ? Convert.ToBase64String(artworkImageData)
+                                    : null
+                            }
+                        };
+                        break;
                     case "Library_SetArtworkEx": // bool (string sourceFileUrl, int index, string imageData)
                         if (!ReadOnly)
                         {
