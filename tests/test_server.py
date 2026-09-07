@@ -29,7 +29,7 @@ def test_server_exposes_resources_without_model_callable_tools() -> None:
     assert resources == ["beekeeper://status", "beekeeper://now-playing"]
     assert templates == [
         "beekeeper://library/search/{query}",
-        "beekeeper://library/track/{source_file_url}",
+        "beekeeper://library/track/{source_id}",
     ]
 
 
@@ -50,4 +50,29 @@ def test_search_resource_decodes_query(monkeypatch) -> None:
 
     payload = json.loads(asyncio.run(read_search()))
 
-    assert payload == [r"C:\Music\Teardrop.flac"]
+    assert payload == [
+        {
+            "sourceFileUrl": r"C:\Music\Teardrop.flac",
+            "resourceUri": server.track_resource_uri(r"C:\Music\Teardrop.flac"),
+        }
+    ]
+
+
+def test_track_resource_accepts_a_unicode_windows_path(monkeypatch) -> None:
+    source_file_url = "F:\\MusicBee\\Music\\ミリプロ\\イケナイ太陽.flac"
+
+    class FakeClient:
+        def track_metadata(self, requested_url: str) -> dict[str, str]:
+            assert requested_url == source_file_url
+            return {"sourceFileUrl": requested_url, "title": "イケナイ太陽"}
+
+    monkeypatch.setattr(server, "_client", lambda: FakeClient())
+
+    async def read_track() -> str:
+        async with Client(mcp) as client:
+            result = await client.read_resource(server.track_resource_uri(source_file_url))
+            return result.contents[0].text
+
+    payload = json.loads(asyncio.run(read_track()))
+
+    assert payload["title"] == "イケナイ太陽"

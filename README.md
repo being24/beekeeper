@@ -56,6 +56,10 @@ no MCP tools and no write operations. Use the existing Web API directly for
 explicit library edits; the plugin's read-only setting remains the authority
 for whether those API calls are permitted.
 
+Library search results include a `resourceUri` for loading each track's
+metadata. This opaque URI safely represents Windows paths and Unicode file
+names without treating them as part of the URI structure.
+
 Python 3.12 and [uv](https://docs.astral.sh/uv/) are required. Start the server
 over stdio with:
 
