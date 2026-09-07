@@ -47,6 +47,37 @@ If you need Beekeeper to host your web application as well, make sure that "Serv
 
 By default, you should be able to see that Beekeeper is running at http://localhost:8080/ on the MusicBee system.
 
+## MCP server
+
+This repository includes an optional, read-only MCP server for supplying
+MusicBee context to LLM applications. It exposes status, now-playing data,
+library search, and track metadata as MCP resources. It deliberately exposes
+no MCP tools and no write operations. Use the existing Web API directly for
+explicit library edits; the plugin's read-only setting remains the authority
+for whether those API calls are permitted.
+
+Python 3.12 and [uv](https://docs.astral.sh/uv/) are required. Start the server
+over stdio with:
+
+```console
+uv run beekeeper-mcp
+```
+
+The server connects to `http://localhost:8080` by default. Set
+`BEEKEEPER_URL` when MusicBee is listening elsewhere. For example, an MCP host
+configuration can launch it from this checkout with:
+
+```json
+{
+  "mcpServers": {
+    "beekeeper": {
+      "command": "uv",
+      "args": ["--directory", "C:/path/to/beekeeper", "run", "beekeeper-mcp"]
+    }
+  }
+}
+```
+
 ## API Reference
 
 The easiest way to get a handle on the methods and events in the Beekeeper web API, is to read https://github.com/Grismar/beekeeper/blob/master/files/beekeeper.js

@@ -14,6 +14,11 @@
 [Oo]bj/
 [Pp]ackages/
 *.nupkg
+.venv/
+.ruff_cache/
+.pytest_cache/
+__pycache__/
+dist/
 
 # Test and analysis output
 TestResults/

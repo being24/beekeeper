@@ -1,5 +1,26 @@
 version: 2
 updates:
+  - package-ecosystem: "pip"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "09:00"
+      timezone: "Asia/Tokyo"
+    target-branch: "master"
+    open-pull-requests-limit: 5
+    assignees:
+      - "being24"
+    groups:
+      python-all:
+        applies-to: version-updates
+        patterns:
+          - "*"
+      python-security:
+        applies-to: security-updates
+        patterns:
+          - "*"
+
   - package-ecosystem: "nuget"
     directories:
       - "/"
